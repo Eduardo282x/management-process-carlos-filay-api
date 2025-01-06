@@ -32,19 +32,38 @@ model Roles {
 }
 
 model Students {
-  id           Int            @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   firstName    String
   lastName     String
   identify     String
   age          Int
   gradeId      Int
-  grade        Grades         @relation(fields: [gradeId], references: [id])
+  grade        Grades          @relation(fields: [gradeId], references: [id])
   address      String
-  parentId     Int
-  parent       Parents        @relation(fields: [parentId], references: [id])
+  Parents      StudentParent[]
   status       Boolean
   Registration Registration[]
   Activities   Activities[]
+}
+
+model Parents {
+  id        Int             @id @default(autoincrement())
+  firstName String
+  lastName  String
+  age       Int
+  identify  String
+  phone     String
+  address   String
+  status    Boolean
+  Students  StudentParent[]
+}
+
+model StudentParent {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  student   Students @relation(fields: [studentId], references: [id])
+  parentId  Int
+  parent    Parents  @relation(fields: [parentId], references: [id])
 }
 
 model Grades {
@@ -61,42 +80,37 @@ model Subjects {
 }
 
 model Activities {
-  idActivity   Int      @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   activity     String
   dateActivity DateTime
   studentId    Int
   student      Students @relation(fields: [studentId], references: [id])
   subjectId    Int
   subjects     Subjects @relation(fields: [subjectId], references: [id])
+  grade        Int
 }
 
-model Parents {
-  id        Int        @id @default(autoincrement())
-  firstName String
-  lastName  String
-  age       Int
-  identify  String
-  phone     String
-  address   String
-  status    Boolean
-  Students  Students[]
+model TypePayment {
+  id          Int             @id @default(autoincrement())
+  typePayment String
+  Payment     MethodPayment[]
 }
 
-model Registration {
-  idRegistration Int      @id @default(autoincrement())
-  studentId      Int
-  student        Students @relation(fields: [studentId], references: [id])
-  startDate      DateTime
-  period         String
-  grade          String
-  Grades         Grades   @relation(fields: [gradesId], references: [id])
-  gradesId       Int
-  paymentId      Int
-  payments       Payments @relation(fields: [paymentId], references: [idPayment])
+model MethodPayment {
+  id          Int         @id @default(autoincrement())
+  typeId      Int
+  type        TypePayment @relation(fields: [typeId], references: [id])
+  bank        String
+  countNumber String
+  identify    String
+  email       String
+  phone       String
+  owner       String
+  Payments    Payments[]
 }
 
 model Payments {
-  idPayment       Int            @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   amount          Int
   currency        String
   datePay         DateTime
@@ -106,22 +120,18 @@ model Payments {
   phonePayer      String
   Registration    Registration[]
   paymentMethodId Int
-  methodPayment   MethodPayment  @relation(fields: [paymentMethodId], references: [idMethodPayment])
+  methodPayment   MethodPayment  @relation(fields: [paymentMethodId], references: [id])
 }
 
-model MethodPayment {
-  idMethodPayment Int         @id @default(autoincrement())
-  typeId          Int
-  type            TypePayment @relation(fields: [typeId], references: [idTypePayment])
-  bank            String
-  identify        String
-  email           String
-  owner           String
-  Payments        Payments[]
+model Registration {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  student   Students @relation(fields: [studentId], references: [id])
+  startDate DateTime
+  period    String
+  Grades    Grades   @relation(fields: [gradesId], references: [id])
+  gradesId  Int
+  paymentId Int
+  payments  Payments @relation(fields: [paymentId], references: [id])
 }
 
-model TypePayment {
-  idTypePayment Int             @id @default(autoincrement())
-  typePayment   String
-  Payment       MethodPayment[]
-}

@@ -1,5 +1,6 @@
 import { IsString } from "class-validator";
 import { DtoBaseResponse } from "./base.dto";
+import { User } from "@prisma/client";
 
 export class DtoLogin {
     @IsString()
@@ -9,5 +10,5 @@ export class DtoLogin {
 }
 
 export class ResponseLogin extends DtoBaseResponse {
-    userData: any;
+    userData: User;
 }
