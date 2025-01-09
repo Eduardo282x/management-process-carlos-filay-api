@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { MethodPayment, Payments, TypePayment } from '@prisma/client';
+import { MethodPayment, Payments } from '@prisma/client';
 import { badResponse, baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { DtoMethodPayments, DtoUpdateMethodPayments } from 'src/dtos/payment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BankData, IBank } from './payment.data';
 
 @Injectable()
 export class PaymentsService {
@@ -11,26 +12,18 @@ export class PaymentsService {
 
     }
 
-    async getTypePayments(): Promise<TypePayment[]> {
-        return await this.prismaService.typePayment.findMany();
+    async getMethodPayments(): Promise<MethodPayment[]> {
+        return await this.prismaService.methodPayment.findMany();
     }
 
-    async getMethodPayments(): Promise<MethodPayment[]> {
-        return await this.prismaService.methodPayment.findMany({
-            include: {
-                type: true
-            }
-        });
+    getBanks(): IBank[] {
+        return BankData;
     }
 
     async getPayments(): Promise<Payments[]> {
         return await this.prismaService.payments.findMany({
             include: {
-                methodPayment: {
-                    include: {
-                        type: true
-                    }
-                }
+                methodPayment: true
             }
         });
     }
@@ -39,7 +32,7 @@ export class PaymentsService {
         try {
             await this.prismaService.methodPayment.create({
                 data: {
-                    typeId: newMethod.typeId,
+                    type: newMethod.type,
                     bank: newMethod.bank,
                     countNumber: newMethod.countNumber,
                     identify: newMethod.identify,
@@ -62,7 +55,7 @@ export class PaymentsService {
         try {
             await this.prismaService.methodPayment.update({
                 data: {
-                    typeId: method.typeId,
+                    type: method.type,
                     bank: method.bank,
                     countNumber: method.countNumber,
                     identify: method.identify,

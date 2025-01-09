@@ -1,8 +1,8 @@
 import { IsNumber, IsString } from "class-validator";
 
 export class DtoMethodPayments {
-    @IsNumber()
-    typeId: number;
+    @IsString()
+    type: string;
     @IsString()
     bank: string;
     @IsString()

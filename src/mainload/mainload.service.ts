@@ -90,22 +90,11 @@ export class MainloadService {
                 ],
             });
 
-            //Insertar tipo de pago
-            await this.prismaService.typePayment.createMany({
-                data: [
-                    { typePayment: 'Pago movil' },
-                    { typePayment: 'Transferencia' },
-                    { typePayment: 'Zelle' },
-                    { typePayment: 'Efectivo Bs' },
-                    { typePayment: 'Efectivo USD' },
-                ]
-            })
-
             // Insertar métodos de pago
             await this.prismaService.methodPayment.createMany({
                 data: [
                     {
-                        typeId: 1,
+                        type: 'Pago Movil',
                         bank: 'Banesco',
                         identify: '28391325',
                         countNumber: '',
@@ -114,7 +103,7 @@ export class MainloadService {
                         owner: 'Eduardo Rojas'
                     },
                     {
-                        typeId: 2,
+                        type: 'Transferencia',
                         bank: 'BNC',
                         identify: '28391325',
                         countNumber: '01910032401032027645',
@@ -123,9 +112,9 @@ export class MainloadService {
                         owner: 'Eduardo Rojas'
                     },
                     {
-                        typeId: 3,
-                        bank: 'BNC',
-                        identify: '28391325',
+                        type: 'Zelle',
+                        bank: 'Zelle',
+                        identify: '',
                         countNumber: '',
                         email: 'correo@gmail.com',
                         phone: '',

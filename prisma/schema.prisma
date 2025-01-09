@@ -90,16 +90,9 @@ model Activities {
   grade        Int
 }
 
-model TypePayment {
-  id          Int             @id @default(autoincrement())
-  typePayment String
-  Payment     MethodPayment[]
-}
-
 model MethodPayment {
   id          Int         @id @default(autoincrement())
-  typeId      Int
-  type        TypePayment @relation(fields: [typeId], references: [id])
+  type        String
   bank        String
   countNumber String
   identify    String
