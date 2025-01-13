@@ -67,11 +67,26 @@ export class PaymentsService {
                     id: method.id
                 }
             })
-            baseResponse.message = 'Método de pago agregado exitosamente.'
+            baseResponse.message = 'Método de pago actualizado exitosamente.'
             return baseResponse;
         }
 
         catch (err) {
+            badResponse.message += err.message;
+            return badResponse;
+        }
+    }
+
+    async deleteMethodPayment(id: number): Promise<DtoBaseResponse> {
+        try {
+            await this.prismaService.methodPayment.delete({
+                where: {
+                    id: id
+                }
+            });
+            baseResponse.message = 'Método de pago eliminado exitosamente';
+            return baseResponse;
+        } catch (err) {
             badResponse.message += err.message;
             return badResponse;
         }

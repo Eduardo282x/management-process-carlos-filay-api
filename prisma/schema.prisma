@@ -38,10 +38,10 @@ model Students {
   identify     String
   age          Int
   gradeId      Int
-  grade        Grades          @relation(fields: [gradeId], references: [id])
   address      String
-  Parents      StudentParent[]
   status       Boolean
+  grade        Grades          @relation(fields: [gradeId], references: [id])
+  Parents      StudentParent[]
   Registration Registration[]
   Activities   Activities[]
 }

@@ -13,6 +13,9 @@ export class UsersService {
         return await this.prismaService.user.findMany({
             include: {
                 rol: true
+            },
+            orderBy:{
+                id: 'asc'
             }
         });
     }
@@ -27,7 +30,7 @@ export class UsersService {
                 data: {
                     firstName: newUser.firstName,
                     lastName: newUser.lastName,
-                    username: newUser.username,
+                    username: newUser.firstName,
                     identify: newUser.identify,
                     password: newUser.identify,
                     rolId: newUser.rolId,
@@ -48,7 +51,7 @@ export class UsersService {
                 data: {
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    username: user.username,
+                    username: user.firstName,
                     identify: user.identify,
                     rolId: user.rolId,
                     status: user.status,

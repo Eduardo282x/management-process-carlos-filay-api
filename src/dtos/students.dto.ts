@@ -1,45 +1,40 @@
-import { IsBoolean, IsISBN, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsString, IsInt, ValidateNested, IsArray, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateParentDto } from './parents.dto';
 
-export class DtoStudents {
+export class CreateStudentDto {
+    @IsNotEmpty()
     @IsString()
     firstName: string;
+
+    @IsNotEmpty()
     @IsString()
     lastName: string;
+
+    @IsNotEmpty()
     @IsString()
     identify: string;
-    @IsNumber()
+
+    @IsNotEmpty()
+    @IsInt()
     age: number;
-    @IsNumber()
+
+    @IsNotEmpty()
+    @IsInt()
     gradeId: number;
+
+    @IsNotEmpty()
     @IsString()
     address: string;
-    @IsBoolean()
-    status: boolean;
+
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateParentDto)
+    parents: CreateParentDto[];
 }
 
-export class DtoStudentsUpdate extends DtoStudents {
-    @IsNumber()
-    id: number;
-}
 
-export class DtoParents {
-    @IsString()
-    firstName: string;
-    @IsString()
-    lastName: string;
-    @IsNumber()
-    age: number;
-    @IsString()
-    identify: string;
-    @IsString()
-    phone: string;
-    @IsString()
-    address: string;
-    @IsBoolean()
-    status: boolean;
-}
-
-export class DtoParentsUpdate extends DtoParents {
+export class DtoStudentsUpdate extends CreateStudentDto {
     @IsNumber()
     id: number;
 }

@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
-import { DtoMethodPayments } from 'src/dtos/payment.dto';
+import { DtoMethodPayments, DtoUpdateMethodPayments } from 'src/dtos/payment.dto';
 
 @Controller('payments')
 export class PaymentsController {
@@ -29,4 +29,13 @@ export class PaymentsController {
         return await this.paymentService.createMethodPayments(newMethod);
     }
 
+    @Put('/methods')
+    async updateMethodPayments(@Body() method: DtoUpdateMethodPayments) {
+        return await this.paymentService.updateMethodPayments(method);
+    }
+
+    @Delete('/methods/:id')
+    async deleteMethodPaymentd(@Param('id') id: string) {
+        return await this.paymentService.deleteMethodPayment(Number(id));
+    }
 }

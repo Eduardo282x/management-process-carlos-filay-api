@@ -6,8 +6,6 @@ export class DtoUser {
     @IsString()
     lastName: string;
     @IsString()
-    username: string;
-    @IsString()
     identify: string;
     @IsNumber()
     rolId: number;
