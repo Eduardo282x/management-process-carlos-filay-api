@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Grades } from '@prisma/client';
+import { Grades, Registration } from '@prisma/client';
 import { baseResponse } from 'src/dtos/base.dto';
 import { CreateRegistrationDto } from 'src/dtos/registration.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,7 +10,7 @@ export class RegistrationService {
     constructor(private prisma: PrismaService) { }
 
     async createRegistration(createRegistrationDto: CreateRegistrationDto) {
-        const { student, payment, period, gradesId, paymentMethodId } = createRegistrationDto;
+        const { student, payment, parents } = createRegistrationDto;
 
         // Begin a transaction
         return await this.prisma.$transaction(async (tx) => {
@@ -20,7 +20,7 @@ export class RegistrationService {
                     firstName: student.firstName,
                     lastName: student.lastName,
                     identify: student.identify,
-                    age: student.age,
+                    age: Number(student.age),
                     gradeId: student.gradeId,
                     address: student.address,
                     status: true,
@@ -28,7 +28,7 @@ export class RegistrationService {
             });
 
             // Create parents
-            const parentPromises = student.parents.map((parent) =>
+            const parentPromises = parents.map((parent) =>
                 tx.parents.create({
                     data: {
                         firstName: parent.firstName,
@@ -65,7 +65,7 @@ export class RegistrationService {
                     lastNamePayer: payment.ownerLastname,
                     identifyPayer: payment.identify,
                     phonePayer: payment.phone,
-                    paymentMethodId: paymentMethodId,
+                    paymentMethodId: payment.paymentMethodId,
                 },
             });
 
@@ -74,21 +74,12 @@ export class RegistrationService {
                 data: {
                     studentId: createdStudent.id,
                     startDate: new Date(),
-                    period,
-                    gradesId,
+                    period: payment.period,
+                    gradesId: student.gradeId,
                     paymentId: createdPayment.id,
                 },
             });
 
-            const dataSaved = {
-                student: createdStudent,
-                parents: createdParents,
-                payment: createdPayment,
-                registration: createdRegistration,
-            };
-
-            console.log(dataSaved);
-            
             baseResponse.message = 'Estudiante inscrito exitosamente.'
             return baseResponse
         });
@@ -96,6 +87,16 @@ export class RegistrationService {
 
     async getGrades(): Promise<Grades[]> {
         return await this.prisma.grades.findMany();
+    }
+
+    async getInscriptions(): Promise<Registration[]> {
+        return await this.prisma.registration.findMany({
+            include: {
+                student: true,
+                Grades: true,
+                payments: true
+            }
+        });
     }
 
 }

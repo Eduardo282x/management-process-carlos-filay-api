@@ -27,11 +27,16 @@ export class MainloadService {
 
             await this.prismaService.grades.createMany({
                 data: [
-                    { grade: "Primero" },
-                    { grade: "Segundo" },
-                    { grade: "Tercero" },
-                    { grade: "Cuarto" },
-                    { grade: "Quinto" },
+                    { grade: "Primer grado" },
+                    { grade: "Segundo grado" },
+                    { grade: "Tercer grado" },
+                    { grade: "Cuarto grado" },
+                    { grade: "Quinto grado" },
+                    { grade: "Primer año" },
+                    { grade: "Segundo año" },
+                    { grade: "Tercer año" },
+                    { grade: "Cuarto año" },
+                    { grade: "Quinto año" },
                 ],
             });
 

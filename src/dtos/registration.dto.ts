@@ -1,7 +1,8 @@
-import { IsNotEmpty, IsString, ValidateNested, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, ValidateNested, IsInt, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreatePaymentDto } from './payment.dto';
 import { CreateStudentDto } from './students.dto';
+import { CreateParentDto } from './parents.dto';
 
 export class CreateRegistrationDto {
     @IsNotEmpty()
@@ -9,20 +10,13 @@ export class CreateRegistrationDto {
     @Type(() => CreateStudentDto)
     student: CreateStudentDto;
 
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => CreateParentDto)
+    parents: CreateParentDto[];
+
     @IsNotEmpty()
     @ValidateNested()
     @Type(() => CreatePaymentDto)
     payment: CreatePaymentDto;
-
-    @IsNotEmpty()
-    @IsString()
-    period: string;
-
-    @IsNotEmpty()
-    @IsInt()
-    gradesId: number;
-
-    @IsNotEmpty()
-    @IsInt()
-    paymentMethodId: number;
 }

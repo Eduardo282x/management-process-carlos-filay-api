@@ -15,6 +15,11 @@ export class StudentsController {
         return await this.studentsService.getStudents();
     }
 
+    @Get('/withParents/:id')
+    async findStudentAndParents(@Param('id') id: string): Promise<Students[]> {
+        return await this.studentsService.findStudentAndParents(Number(id));
+    }
+
     @Get('/parents/:id')
     async getParentsStudens(@Param('id') id: string) {
         return await this.studentsService.getParentsStudents(Number(id));

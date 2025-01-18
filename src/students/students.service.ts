@@ -15,6 +15,18 @@ export class StudentsService {
         return await this.prismaService.students.findMany();
     }
 
+    async findStudentAndParents(id: number): Promise<any> {
+        return await this.prismaService.studentParent.findMany({
+            where: {
+                studentId: id
+            },
+            include: {
+                student: true,
+                parent: true
+            }
+        })
+    }
+
     async getParentsStudents(studentId: number) {
         return await this.prismaService.studentParent.findMany({
             where: {
@@ -33,7 +45,7 @@ export class StudentsService {
                     firstName: newStudents.firstName,
                     lastName: newStudents.lastName,
                     identify: newStudents.identify,
-                    age: newStudents.age,
+                    age: Number(newStudents.age),
                     gradeId: newStudents.gradeId,
                     address: newStudents.address,
                     status: true,
@@ -54,7 +66,7 @@ export class StudentsService {
                     firstName: student.firstName,
                     lastName: student.lastName,
                     identify: student.identify,
-                    age: student.age,
+                    age: Number(student.age),
                     gradeId: student.gradeId,
                     address: student.address,
                     status: true,

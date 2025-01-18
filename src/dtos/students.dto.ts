@@ -1,7 +1,4 @@
 import { IsNotEmpty, IsString, IsInt, ValidateNested, IsArray, IsNumber } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreateParentDto } from './parents.dto';
-
 export class CreateStudentDto {
     @IsNotEmpty()
     @IsString()
@@ -16,7 +13,7 @@ export class CreateStudentDto {
     identify: string;
 
     @IsNotEmpty()
-    @IsInt()
+    @IsNumber()
     age: number;
 
     @IsNotEmpty()
@@ -26,11 +23,6 @@ export class CreateStudentDto {
     @IsNotEmpty()
     @IsString()
     address: string;
-
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => CreateParentDto)
-    parents: CreateParentDto[];
 }
 
 

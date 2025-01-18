@@ -29,28 +29,20 @@ export class CreatePaymentDto {
     amount: number;
 
     @IsNotEmpty()
+    @IsInt()
+    paymentMethodId: number;
+
+    @IsNotEmpty()
     @IsString()
     currency: string;
-
-    @IsNotEmpty()
-    @IsString()
-    type: string;
-
-    @IsNotEmpty()
-    @IsString()
-    bank: string;
-
-    @IsNotEmpty()
-    @IsString()
-    countNumber: string;
 
     @IsNotEmpty()
     @IsString()
     identify: string;
 
     @IsNotEmpty()
-    @IsEmail()
-    email: string;
+    @IsString()
+    period: string;
 
     @IsNotEmpty()
     @IsString()
