@@ -30,3 +30,28 @@ export class DtoStudentsUpdate extends CreateStudentDto {
     @IsNumber()
     id: number;
 }
+
+export class SimpleUpdateStudentDto {
+    @IsNumber()
+    id: number;
+    
+    @IsNotEmpty()
+    @IsString()
+    firstName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    lastName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    identify: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    age: number;
+
+    @IsNotEmpty()
+    @IsString()
+    address: string;
+}

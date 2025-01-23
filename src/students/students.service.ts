@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Students } from '@prisma/client';
 import { badResponse, baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
-import { CreateStudentDto, DtoStudentsUpdate } from 'src/dtos/students.dto';
+import { CreateStudentDto, DtoStudentsUpdate, SimpleUpdateStudentDto } from 'src/dtos/students.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -59,7 +59,7 @@ export class StudentsService {
         }
     }
 
-    async updateStudents(student: DtoStudentsUpdate): Promise<DtoBaseResponse> {
+    async updateStudents(student: SimpleUpdateStudentDto): Promise<DtoBaseResponse> {
         try {
             await this.prismaService.students.update({
                 data: {
@@ -67,7 +67,7 @@ export class StudentsService {
                     lastName: student.lastName,
                     identify: student.identify,
                     age: Number(student.age),
-                    gradeId: student.gradeId,
+                    // gradeId: student.gradeId,
                     address: student.address,
                     status: true,
                 },

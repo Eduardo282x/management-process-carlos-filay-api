@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { Students } from '@prisma/client';
-import { CreateStudentDto, DtoStudentsUpdate } from 'src/dtos/students.dto';
+import { CreateStudentDto, DtoStudentsUpdate, SimpleUpdateStudentDto } from 'src/dtos/students.dto';
 
 @Controller('students')
 export class StudentsController {
@@ -31,7 +31,7 @@ export class StudentsController {
     }
 
     @Put()
-    async updateStudents(@Body() students: DtoStudentsUpdate) {
+    async updateStudents(@Body() students: SimpleUpdateStudentDto) {
         return await this.studentsService.updateStudents(students);
     }
 
