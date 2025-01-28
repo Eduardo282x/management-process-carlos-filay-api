@@ -12,7 +12,11 @@ export class StudentsService {
     }
 
     async getStudents(): Promise<Students[]> {
-        return await this.prismaService.students.findMany();
+        return await this.prismaService.students.findMany({
+            include: {
+                grade: true
+            }
+        });
     }
 
     async findStudentAndParents(id: number): Promise<any> {
