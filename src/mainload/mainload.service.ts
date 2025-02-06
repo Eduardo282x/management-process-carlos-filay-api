@@ -72,6 +72,31 @@ export class MainloadService {
                     { firstName: "Miguel", lastName: "Martínez", identify: "20123460", age: 11, gradeId: 3, address: "Avenida Central 1", status: true },
                 ],
             });
+            await this.prismaService.monthlyFee.createMany({
+                data: [
+                    { year: 2025, month: 2, amount: 200 },
+                    { year: 2025, month: 3, amount: 200 },
+                    { year: 2025, month: 4, amount: 200 },
+                    { year: 2025, month: 5, amount: 200 },
+                    { year: 2025, month: 6, amount: 200 },
+                    { year: 2025, month: 7, amount: 200 },
+                    { year: 2025, month: 8, amount: 200 },
+                    { year: 2025, month: 9, amount: 200 },
+                    { year: 2025, month: 10, amount: 200 },
+                    { year: 2025, month: 11, amount: 200 },
+                    { year: 2025, month: 12, amount: 200 }
+                ]
+            })
+
+            await this.prismaService.monthlyPayment.createMany({
+                data: [
+                    { studentId: 1, status: false, monthlyFeeId: 2 },
+                    { studentId: 2, status: false, monthlyFeeId: 2 },
+                    { studentId: 3, status: false, monthlyFeeId: 2 },
+                    { studentId: 4, status: false, monthlyFeeId: 2 },
+                    { studentId: 5, status: false, monthlyFeeId: 2 }
+                ]
+            })
 
             // Relacionar estudiantes con padres
             await this.prismaService.studentParent.createMany({

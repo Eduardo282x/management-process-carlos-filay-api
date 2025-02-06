@@ -51,7 +51,7 @@ export class SimpleUpdateStudentDto {
     @IsNumber()
     age: number;
 
-    @IsNotEmpty()
-    @IsString()
-    address: string;
+    // @IsNotEmpty()
+    // @IsString()
+    // address: string;
 }

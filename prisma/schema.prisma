@@ -32,18 +32,19 @@ model Roles {
 }
 
 model Students {
-  id           Int             @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  identify     String
-  age          Int
-  gradeId      Int
-  address      String
-  status       Boolean
-  grade        Grades          @relation(fields: [gradeId], references: [id])
-  Parents      StudentParent[]
-  Registration Registration[]
-  Activities   Activities[]
+  id             Int              @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  identify       String
+  age            Int
+  gradeId        Int
+  address        String
+  status         Boolean
+  grade          Grades           @relation(fields: [gradeId], references: [id])
+  Parents        StudentParent[]
+  Registration   Registration[]
+  Activities     Activities[]
+  MonthlyPayment MonthlyPayment[]
 }
 
 model Parents {
@@ -91,15 +92,16 @@ model Activities {
 }
 
 model MethodPayment {
-  id          Int         @id @default(autoincrement())
-  type        String
-  bank        String
-  countNumber String
-  identify    String
-  email       String
-  phone       String
-  owner       String
-  Payments    Payments[]
+  id            Int             @id @default(autoincrement())
+  type          String
+  bank          String
+  countNumber   String
+  identify      String
+  email         String
+  phone         String
+  owner         String
+  Payments      Payments[]
+  PaymentDetail PaymentDetail[]
 }
 
 model Payments {
@@ -128,3 +130,34 @@ model Registration {
   payments  Payments @relation(fields: [paymentId], references: [id])
 }
 
+model MonthlyFee {
+  id          Int      @id @default(autoincrement())
+  month       Int      // Mes (1 = Enero, 2 = Febrero, ..., 12 = Diciembre)
+  year        Int      // Año
+  amount      Int      // Monto de la mensualidad
+  students    MonthlyPayment[]
+}
+
+model MonthlyPayment {
+  id              Int          @id @default(autoincrement())
+  studentId       Int
+  student         Students     @relation(fields: [studentId], references: [id])
+  monthlyFeeId    Int
+  monthlyFee      MonthlyFee   @relation(fields: [monthlyFeeId], references: [id])
+  status          Boolean      @default(false) // Se marca como true si se pagó totalmente
+  payments        PaymentDetail[]
+}
+
+model PaymentDetail {
+  id              Int            @id @default(autoincrement())
+  monthlyPaymentId Int
+  monthlyPayment   MonthlyPayment @relation(fields: [monthlyPaymentId], references: [id])
+  paymentMethodId  Int
+  methodPayment    MethodPayment  @relation(fields: [paymentMethodId], references: [id])
+  amountPaid       Int
+  datePay         DateTime
+  namePayer       String
+  lastNamePayer   String
+  identifyPayer   String
+  phonePayer      String
+}

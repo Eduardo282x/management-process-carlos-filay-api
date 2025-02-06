@@ -14,33 +14,74 @@ export class RegistrationService {
 
         // Begin a transaction
         return await this.prisma.$transaction(async (tx) => {
-            // Create student
-            const createdStudent = await tx.students.create({
-                data: {
-                    firstName: student.firstName,
-                    lastName: student.lastName,
-                    identify: student.identify,
-                    age: Number(student.age),
-                    gradeId: student.gradeId,
-                    address: student.address,
-                    status: true,
-                },
-            });
+            const findStudent = await tx.students.findFirst({
+                where: { identify: student.identify }
+            })
 
-            // Create parents
-            const parentPromises = parents.map((parent) =>
-                tx.parents.create({
+            let studentId: number = 0;
+
+            if (findStudent) {
+                await tx.students.update({
                     data: {
-                        firstName: parent.firstName,
-                        lastName: parent.lastName,
-                        identify: parent.identify,
-                        age: parent.age,
-                        phone: parent.phone,
-                        address: parent.address,
+                        age: Number(student.age),
+                        gradeId: student.gradeId,
+                        address: student.address,
+                    },
+                    where: {
+                        id: findStudent.id
+                    }
+                });
+
+                studentId = findStudent.id;
+            } else {
+                // Create student
+                const createdStudent = await tx.students.create({
+                    data: {
+                        firstName: student.firstName,
+                        lastName: student.lastName,
+                        identify: student.identify,
+                        age: Number(student.age),
+                        gradeId: student.gradeId,
+                        address: student.address,
                         status: true,
                     },
-                }),
-            );
+                });
+
+                studentId = createdStudent.id
+            }
+
+
+            // Create parents
+            const parentPromises = parents.map(async (parent) => {
+                const findParent = await tx.parents.findFirst({
+                    where: { identify: parent.identify }
+                })
+
+                if (findParent) {
+                    return tx.parents.update({
+                        data: {
+                            age: parent.age,
+                            phone: parent.phone,
+                            address: parent.address,
+                        },
+                        where: {
+                            id: findParent.id
+                        }
+                    })
+                } else {
+                    return tx.parents.create({
+                        data: {
+                            firstName: parent.firstName,
+                            lastName: parent.lastName,
+                            identify: parent.identify,
+                            age: parent.age,
+                            phone: parent.phone,
+                            address: parent.address,
+                            status: true,
+                        },
+                    })
+                }
+            });
 
             const createdParents = await Promise.all(parentPromises);
 
@@ -48,12 +89,11 @@ export class RegistrationService {
             for (const parent of createdParents) {
                 await tx.studentParent.create({
                     data: {
-                        studentId: createdStudent.id,
+                        studentId: studentId,
                         parentId: parent.id,
                     },
                 });
             }
-
 
             // Create payment
             const createdPayment = await tx.payments.create({
@@ -70,9 +110,9 @@ export class RegistrationService {
             });
 
             // Create registration
-            const createdRegistration = await tx.registration.create({
+            await tx.registration.create({
                 data: {
-                    studentId: createdStudent.id,
+                    studentId: studentId,
                     startDate: new Date(),
                     period: payment.period,
                     gradesId: student.gradeId,

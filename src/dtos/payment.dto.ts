@@ -56,3 +56,53 @@ export class CreatePaymentDto {
     @IsString()
     ownerLastname: string;
 }
+
+
+export class DtoMonthlyFee {
+    @IsNumber()
+    month: number;
+    @IsNumber()
+    year: number;
+    @IsNumber()
+    amount: number;
+}
+
+export class DtoUpdateMonthlyFee extends DtoMonthlyFee {
+    @IsNumber()
+    id: number;
+}
+
+
+
+//DTO Pago mensualidad
+import { IsDateString } from 'class-validator';
+
+export class DtoMonthlyPay {
+    @IsInt()
+    studentId: number;
+
+    @IsInt()
+    monthlyFeeId: number;
+
+    @IsInt()
+    paymentMethodId: number;
+
+    @IsInt()
+    amountPaid: number;
+
+    @IsString()
+    @IsNotEmpty()
+    namePayer: string;
+
+    @IsString()
+    @IsNotEmpty()
+    lastNamePayer: string;
+
+    @IsString()
+    @IsNotEmpty()
+    identifyPayer: string;
+
+    @IsString()
+    @IsNotEmpty()
+    phonePayer: string;
+}

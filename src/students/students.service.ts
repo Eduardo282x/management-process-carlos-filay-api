@@ -13,6 +13,9 @@ export class StudentsService {
 
     async getStudents(): Promise<Students[]> {
         return await this.prismaService.students.findMany({
+            orderBy:{
+                id: 'asc'
+            },
             include: {
                 grade: true
             }
@@ -72,7 +75,7 @@ export class StudentsService {
                     identify: student.identify,
                     age: Number(student.age),
                     // gradeId: student.gradeId,
-                    address: student.address,
+                    // address: student.address,
                     status: true,
                 },
                 where: {
