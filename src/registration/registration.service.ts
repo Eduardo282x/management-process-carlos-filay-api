@@ -99,6 +99,7 @@ export class RegistrationService {
             const createdPayment = await tx.payments.create({
                 data: {
                     amount: payment.amount,
+                    studentId: studentId,
                     currency: payment.currency,
                     datePay: new Date(),
                     namePayer: payment.ownerName,

@@ -23,7 +23,8 @@ export class PaymentsService {
     async getPayments(): Promise<Payments[]> {
         return await this.prismaService.payments.findMany({
             include: {
-                methodPayment: true
+                methodPayment: true,
+                student: true
             }
         });
     }
@@ -186,6 +187,8 @@ export class PaymentsService {
             studentId: payment.monthlyPayment.student.id,
             studentName: `${payment.monthlyPayment.student.firstName} ${payment.monthlyPayment.student.lastName}`,
             studentIdentify: `${payment.monthlyPayment.student.identify}`,
+            namePayer: `${payment.namePayer} ${payment.lastNamePayer}`,
+            identifyPayer: payment.identifyPayer,
             month: payment.monthlyPayment.monthlyFee.month, // Mes de la mensualidad
             amountPaid: payment.amountPaid,
             datePay: payment.datePay
@@ -207,6 +210,7 @@ export class PaymentsService {
                 firstName: true,
                 lastName: true,
                 identify: true,
+                grade: true,
                 MonthlyPayment: {
                     where: {
                         monthlyFee: { month: currentMonth, year: currentYear }
@@ -220,7 +224,7 @@ export class PaymentsService {
                         },
                     },
                 },
-            },
+            }
         }).then(students =>
             students.map(student => {
                 const totalAmount = student.MonthlyPayment.length > 0
@@ -234,6 +238,7 @@ export class PaymentsService {
                     id: student.id,
                     name: `${student.firstName} ${student.lastName}`,
                     identify: student.identify,
+                    grade: student.grade.grade,
                     totalAmount,
                     totalPaid,
                     remaining,

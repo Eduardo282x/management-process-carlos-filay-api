@@ -45,6 +45,7 @@ model Students {
   Registration   Registration[]
   Activities     Activities[]
   MonthlyPayment MonthlyPayment[]
+  Payments       Payments[]
 }
 
 model Parents {
@@ -107,6 +108,8 @@ model MethodPayment {
 model Payments {
   id              Int            @id @default(autoincrement())
   amount          Int
+  studentId       Int
+  student         Students       @relation(fields: [studentId], references: [id])
   currency        String
   datePay         DateTime
   namePayer       String
@@ -131,33 +134,33 @@ model Registration {
 }
 
 model MonthlyFee {
-  id          Int      @id @default(autoincrement())
-  month       Int      // Mes (1 = Enero, 2 = Febrero, ..., 12 = Diciembre)
-  year        Int      // Año
-  amount      Int      // Monto de la mensualidad
-  students    MonthlyPayment[]
+  id       Int              @id @default(autoincrement())
+  month    Int // Mes (1 = Enero, 2 = Febrero, ..., 12 = Diciembre)
+  year     Int // Año
+  amount   Int // Monto de la mensualidad
+  students MonthlyPayment[]
 }
 
 model MonthlyPayment {
-  id              Int          @id @default(autoincrement())
-  studentId       Int
-  student         Students     @relation(fields: [studentId], references: [id])
-  monthlyFeeId    Int
-  monthlyFee      MonthlyFee   @relation(fields: [monthlyFeeId], references: [id])
-  status          Boolean      @default(false) // Se marca como true si se pagó totalmente
-  payments        PaymentDetail[]
+  id           Int             @id @default(autoincrement())
+  studentId    Int
+  student      Students        @relation(fields: [studentId], references: [id])
+  monthlyFeeId Int
+  monthlyFee   MonthlyFee      @relation(fields: [monthlyFeeId], references: [id])
+  status       Boolean         @default(false) // Se marca como true si se pagó totalmente
+  payments     PaymentDetail[]
 }
 
 model PaymentDetail {
-  id              Int            @id @default(autoincrement())
+  id               Int            @id @default(autoincrement())
   monthlyPaymentId Int
   monthlyPayment   MonthlyPayment @relation(fields: [monthlyPaymentId], references: [id])
   paymentMethodId  Int
   methodPayment    MethodPayment  @relation(fields: [paymentMethodId], references: [id])
   amountPaid       Int
-  datePay         DateTime
-  namePayer       String
-  lastNamePayer   String
-  identifyPayer   String
-  phonePayer      String
+  datePay          DateTime
+  namePayer        String
+  lastNamePayer    String
+  identifyPayer    String
+  phonePayer       String
 }

@@ -159,6 +159,7 @@ export class MainloadService {
                     {
                         amount: 100,
                         currency: "Bs",
+                        studentId: 1,
                         datePay: new Date(),
                         namePayer: "Juan",
                         lastNamePayer: "Pérez",
@@ -169,6 +170,7 @@ export class MainloadService {
                     {
                         amount: 200,
                         currency: "Bs",
+                        studentId: 2,
                         datePay: new Date(),
                         namePayer: "María",
                         lastNamePayer: "Gómez",
