@@ -110,6 +110,14 @@ export class RegistrationService {
                 },
             });
 
+            const registerMonthlyFeePayment = await tx.monthlyPayment.create({
+                data: {
+                    studentId: studentId,
+                    monthlyFeeId: new Date().getMonth() + 1,
+                    status: false,
+                },
+            });
+
             // Create registration
             await tx.registration.create({
                 data: {
