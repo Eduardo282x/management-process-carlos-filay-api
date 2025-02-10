@@ -43,9 +43,9 @@ model Students {
   grade          Grades           @relation(fields: [gradeId], references: [id])
   Parents        StudentParent[]
   Registration   Registration[]
-  Activities     Activities[]
   MonthlyPayment MonthlyPayment[]
   Payments       Payments[]
+  Notes          Notes[]
 }
 
 model Parents {
@@ -73,23 +73,33 @@ model Grades {
   grade        String
   Students     Students[]
   Registration Registration[]
+  Subjects     Subjects[]
 }
 
 model Subjects {
   id         Int          @id @default(autoincrement())
   subject    String
+  gradeId    Int
+  Grades     Grades       @relation(fields: [gradeId], references: [id])
   Activities Activities[]
 }
 
 model Activities {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   activity     String
   dateActivity DateTime
-  studentId    Int
-  student      Students @relation(fields: [studentId], references: [id])
   subjectId    Int
-  subjects     Subjects @relation(fields: [subjectId], references: [id])
-  grade        Int
+  subjects     Subjects  @relation(fields: [subjectId], references: [id])
+  Notes        Notes[]
+}
+
+model Notes {
+  id          Int        @id @default(autoincrement())
+  activityId Int
+  Activities  Activities @relation(fields: [activityId], references: [id])
+  studentId   Int
+  student     Students   @relation(fields: [studentId], references: [id])
+  note        Int
 }
 
 model MethodPayment {

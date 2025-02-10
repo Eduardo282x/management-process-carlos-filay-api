@@ -43,13 +43,33 @@ export class MainloadService {
             // Insertar materias
             await this.prismaService.subjects.createMany({
                 data: [
-                    { subject: "Matemáticas" },
-                    { subject: "Ciencias" },
-                    { subject: "Historia" },
-                    { subject: "Geografía" },
-                    { subject: "Español" },
+                    { subject: "Matemáticas", gradeId: 1 },
+                    { subject: "Ciencias", gradeId: 1 },
+                    { subject: "Historia", gradeId: 1 },
+                    { subject: "Geografía", gradeId: 1 },
+                    { subject: "Español", gradeId: 1 },
                 ],
             });
+
+            await this.prismaService.activities.createMany({
+                data: [
+                    {
+                        activity: 'Examen de matematica',
+                        dateActivity: new Date(),
+                        subjectId: 1
+                    },
+                    {
+                        activity: 'Examen de Ciencias',
+                        dateActivity: new Date(),
+                        subjectId: 2
+                    },
+                    {
+                        activity: 'Examen de Historia',
+                        dateActivity: new Date(),
+                        subjectId: 3
+                    }
+                ]
+            })
 
             // Insertar padres
             await this.prismaService.parents.createMany({
@@ -106,17 +126,6 @@ export class MainloadService {
                     { studentId: 2, parentId: 3 },
                     { studentId: 3, parentId: 4 },
                     { studentId: 4, parentId: 5 },
-                ],
-            });
-
-            // Insertar actividades
-            await this.prismaService.activities.createMany({
-                data: [
-                    { activity: "Prueba de Matemáticas", dateActivity: new Date(), studentId: 1, subjectId: 1, grade: 15 },
-                    { activity: "Exposición de Ciencias", dateActivity: new Date(), studentId: 2, subjectId: 2, grade: 11 },
-                    { activity: "Prueba de Historia", dateActivity: new Date(), studentId: 3, subjectId: 3, grade: 12 },
-                    { activity: "Trabajo de Geografía", dateActivity: new Date(), studentId: 4, subjectId: 4, grade: 16 },
-                    { activity: "Dictado en Español", dateActivity: new Date(), studentId: 5, subjectId: 5, grade: 19 },
                 ],
             });
 
@@ -197,6 +206,13 @@ export class MainloadService {
                         gradesId: 1,
                         paymentId: 2
                     },
+                ]
+            })
+            await this.prismaService.notes.createMany({
+                data: [
+                    { activityId: 1, studentId: 1, note: 15 },
+                    { activityId: 2, studentId: 1, note: 15 },
+                    { activityId: 3, studentId: 1, note: 15 },
                 ]
             })
 

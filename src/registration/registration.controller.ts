@@ -9,7 +9,7 @@ export class RegistrationController {
     constructor(private readonly registrationService: RegistrationService) { }
 
     @Get('/inscriptions')
-    async getInscriptions() :Promise<Registration[]> {
+    async getInscriptions(): Promise<Registration[]> {
         return await this.registrationService.getInscriptions();
     }
 
@@ -19,7 +19,7 @@ export class RegistrationController {
     }
 
     @Get('/grades')
-    async getGrades() :Promise<Grades[]> {
+    async getGrades(): Promise<Grades[]> {
         return await this.registrationService.getGrades();
     }
 
