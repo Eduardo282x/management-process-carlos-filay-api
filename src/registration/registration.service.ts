@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Grades, Registration } from '@prisma/client';
-import { baseResponse } from 'src/dtos/base.dto';
+import { badResponse, baseResponse } from 'src/dtos/base.dto';
 import { CreateRegistrationDto } from 'src/dtos/registration.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import * as PDFDocument from 'pdfkit';
+import { Response } from 'express';
 
 @Injectable()
 export class RegistrationService {
@@ -148,4 +150,39 @@ export class RegistrationService {
         });
     }
 
+
+    async generateStudentRegistrationReport(studentId: number, res: Response) {
+        const registration = await this.prisma.registration.findFirst({
+            where: { studentId },
+            include: {
+                student: true,
+                Grades: true,
+            },
+        });
+
+        if (!registration) {
+            badResponse.message = 'No se encontró inscripción para el estudiante con ID';
+            return badResponse;
+        }
+
+        // Crear PDF
+        const doc = new PDFDocument({ margin: 30 });
+        res.setHeader('Content-Disposition', `attachment; filename=inscripcion_${studentId}.pdf`);
+        res.setHeader('Content-Type', 'application/pdf');
+
+        doc.pipe(res);
+
+        // **Encabezado**
+        doc.fontSize(20).text(`Reporte de Inscripción`, { align: 'center' }).moveDown();
+
+        // **Datos del Estudiante**
+        doc.fontSize(14).text(`Nombre: ${registration.student.firstName} ${registration.student.lastName}`);
+        doc.text(`Cédula: V-${registration.student.identify}`);
+        doc.text(`Grado: ${registration.Grades.grade}`);
+        doc.text(`Período: ${registration.period}`);
+        doc.text(`Fecha de inscripción: ${new Date(registration.startDate).toLocaleDateString()}`);
+        doc.moveDown(2);
+
+        doc.end();
+    }
 }

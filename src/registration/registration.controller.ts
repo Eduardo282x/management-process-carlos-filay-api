@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
 import { CreateRegistrationDto } from 'src/dtos/registration.dto';
 import { RegistrationService } from './registration.service';
 import { Grades, Registration } from '@prisma/client';
+import { Response } from 'express';
 
 @Controller('registration')
 export class RegistrationController {
@@ -21,6 +22,14 @@ export class RegistrationController {
     @Get('/grades')
     async getGrades(): Promise<Grades[]> {
         return await this.registrationService.getGrades();
+    }
+
+    @Get('/report/:id')
+    async getStudentRegistrationReport(
+        @Param('id', ParseIntPipe) studentId: number,
+        @Res() res: Response
+    ) {
+        return this.registrationService.generateStudentRegistrationReport(studentId, res);
     }
 
 }
