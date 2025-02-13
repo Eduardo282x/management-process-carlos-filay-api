@@ -92,8 +92,10 @@ export class MainloadService {
                     { firstName: "Miguel", lastName: "Martínez", identify: "20123460", age: 11, gradeId: 3, address: "Avenida Central 1", status: true },
                 ],
             });
+
             await this.prismaService.monthlyFee.createMany({
                 data: [
+                    { year: 2025, month: 1, amount: 200 },
                     { year: 2025, month: 2, amount: 200 },
                     { year: 2025, month: 3, amount: 200 },
                     { year: 2025, month: 4, amount: 200 },
@@ -139,7 +141,7 @@ export class MainloadService {
                         countNumber: '',
                         email: '',
                         phone: '04165610813',
-                        owner: 'Eduardo Rojas'
+                        owner: 'Carlos Filay'
                     },
                     {
                         type: 'Transferencia',
@@ -148,7 +150,7 @@ export class MainloadService {
                         countNumber: '01910032401032027645',
                         email: '',
                         phone: '',
-                        owner: 'Eduardo Rojas'
+                        owner: 'Carlos Filay'
                     },
                     {
                         type: 'Zelle',
@@ -157,7 +159,7 @@ export class MainloadService {
                         countNumber: '',
                         email: 'correo@gmail.com',
                         phone: '',
-                        owner: 'Eduardo Rojas'
+                        owner: 'Carlos Filay'
                     }
                 ]
             })
@@ -206,8 +208,31 @@ export class MainloadService {
                         gradesId: 1,
                         paymentId: 2
                     },
+                    {
+                        studentId: 3,
+                        startDate: new Date(),
+                        period: '2025-1',
+                        gradesId: 2,
+                        paymentId: 1
+                    },
+                    {
+                        studentId: 4,
+                        startDate: new Date(),
+                        period: '2025-1',
+                        gradesId: 2,
+                        paymentId: 2
+                    },
+                    {
+                        studentId: 5,
+                        startDate: new Date(),
+                        period: '2025-1',
+                        gradesId: 3,
+                        paymentId: 2
+                    },
                 ]
-            })
+            });
+
+
             await this.prismaService.notes.createMany({
                 data: [
                     { activityId: 1, studentId: 1, note: 15 },
@@ -215,7 +240,6 @@ export class MainloadService {
                     { activityId: 3, studentId: 1, note: 15 },
                 ]
             })
-
 
             baseResponse.message = 'Data cargada exitosamente.'
             return baseResponse;
