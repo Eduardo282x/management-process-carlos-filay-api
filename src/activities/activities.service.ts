@@ -36,7 +36,7 @@ export class ActivitiesService {
             baseResponse.message = 'Actividad agregada.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }
@@ -55,7 +55,7 @@ export class ActivitiesService {
             baseResponse.message = 'Actividad actualizada.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }

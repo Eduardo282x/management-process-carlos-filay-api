@@ -27,7 +27,7 @@ export class GradesService {
             baseResponse.message = 'Grado agregado.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }
@@ -45,7 +45,7 @@ export class GradesService {
             baseResponse.message = 'Grado actualizado.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }

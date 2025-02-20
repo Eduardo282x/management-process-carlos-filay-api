@@ -47,7 +47,7 @@ export class PaymentsService {
         }
 
         catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }
@@ -73,7 +73,7 @@ export class PaymentsService {
         }
 
         catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }
@@ -88,7 +88,7 @@ export class PaymentsService {
             baseResponse.message = 'Método de pago eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }
@@ -111,7 +111,7 @@ export class PaymentsService {
             baseResponse.message = 'Mensualidad agregada.'
             return baseResponse;
         } catch (err) {
-            badResponse.message += err;
+            badResponse.message + err;
             return badResponse;
         }
     }
@@ -131,7 +131,7 @@ export class PaymentsService {
             baseResponse.message = 'Mensualidad actualizada.'
             return baseResponse;
         } catch (err) {
-            badResponse.message += err;
+            badResponse.message + err;
             return badResponse;
         }
     }
@@ -262,7 +262,7 @@ export class PaymentsService {
         });
 
         if (!monthlyPayment) {
-            badResponse.message += 'No se encontró la mensualidad para este estudiante.'
+            badResponse.message + 'No se encontró la mensualidad para este estudiante.'
             return badResponse;
         }
 

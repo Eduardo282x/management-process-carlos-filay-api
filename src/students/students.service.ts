@@ -61,7 +61,7 @@ export class StudentsService {
             baseResponse.message = 'Estudiante creado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }
@@ -85,7 +85,7 @@ export class StudentsService {
             baseResponse.message = 'Estudiante actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }
@@ -100,7 +100,7 @@ export class StudentsService {
             baseResponse.message = 'Estudiante eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message + err.message;
             return badResponse;
         }
     }

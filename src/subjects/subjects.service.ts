@@ -30,7 +30,7 @@ export class SubjectsService {
             baseResponse.message = 'Materia agregada.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }
@@ -49,7 +49,7 @@ export class SubjectsService {
             baseResponse.message = 'Materia actualizada.'
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err;
+            baseResponse.message + err;
             return badResponse;
         }
     }
