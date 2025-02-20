@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Res } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
-import { DtoMethodPayments, DtoMonthlyFee, DtoMonthlyPay, DtoUpdateMethodPayments, DtoUpdateMonthlyFee } from 'src/dtos/payment.dto';
+import { DtoMethodPayments, DtoMonthlyFee, DtoMonthlyPay, DtoPendingAmount, DtoUpdateMethodPayments, DtoUpdateMonthlyFee } from 'src/dtos/payment.dto';
+import { Response } from 'express';
 
 @Controller('payments')
 export class PaymentsController {
@@ -71,5 +72,31 @@ export class PaymentsController {
     @Delete('/methods/:id')
     async deleteMethodPaymentd(@Param('id') id: string) {
         return await this.paymentService.deleteMethodPayment(Number(id));
+    }
+
+    // ---------------
+
+    @Post('/download/pendingAmount')
+    async generatePendingAmount(
+        @Body() bodyPenging: DtoPendingAmount,
+        @Res() res: Response
+    ) {
+        return await this.paymentService.generatePendingAmount(bodyPenging, res);
+    }
+
+    @Get('/download/payment/student/:id')
+    async generateStudentPaymentReport(
+        @Param('id', ParseIntPipe) studentId: number,
+        @Res() res: Response
+    ) {
+        return this.paymentService.generateStudentPaymentReport(studentId, res);
+    }
+
+    @Get('/download/monthly/student/:id')
+    async generateStudentMonthlyReport(
+        @Param('id', ParseIntPipe) studentId: number,
+        @Res() res: Response
+    ) {
+        return this.paymentService.generateStudentMonthlyReport(studentId, res);
     }
 }

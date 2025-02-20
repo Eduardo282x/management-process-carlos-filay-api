@@ -23,6 +23,13 @@ export class DtoUpdateMethodPayments extends DtoMethodPayments {
 }
 
 
+export class DtoPendingAmount {
+    @IsString()
+    grade: string;
+    @IsString()
+    status: string;
+}
+
 export class CreatePaymentDto {
     @IsNotEmpty()
     @IsInt()

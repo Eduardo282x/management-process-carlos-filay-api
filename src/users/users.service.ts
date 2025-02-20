@@ -40,7 +40,7 @@ export class UsersService {
             baseResponse.message = 'Usuario creado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message + err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }
@@ -63,7 +63,7 @@ export class UsersService {
             baseResponse.message = 'Usuario actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message + err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }
@@ -78,7 +78,7 @@ export class UsersService {
             baseResponse.message = 'Usuario eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message + err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }

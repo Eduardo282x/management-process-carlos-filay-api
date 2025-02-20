@@ -10,9 +10,7 @@ import * as path from 'path';
 
 @Injectable()
 export class NotesService {
-
     constructor(private prismaService: PrismaService) {
-
     }
 
     async getNotes(): Promise<Notes[]> {
