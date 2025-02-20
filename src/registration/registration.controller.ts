@@ -32,4 +32,12 @@ export class RegistrationController {
         return this.registrationService.generateStudentRegistrationReport(studentId, res);
     }
 
+    @Get('/constancia/:id')
+    async generateStudentConstanst(
+        @Param('id', ParseIntPipe) studentId: number,
+        @Res() res: Response
+    ) {
+        return this.registrationService.generateStudentConstanst(studentId, res);
+    }
+
 }

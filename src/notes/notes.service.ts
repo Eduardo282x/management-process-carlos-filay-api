@@ -5,7 +5,8 @@ import { DtoNotes, DtoUpdateNotes } from 'src/dtos/grade.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as PDFDocument from 'pdfkit';
 import { Response } from 'express';
-
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class NotesService {
@@ -123,6 +124,16 @@ export class NotesService {
         res.setHeader('Content-Type', 'application/pdf');
 
         doc.pipe(res);
+
+        const imagePath = path.join(__dirname, '../assets/logoColegio.jpg',);
+        if (fs.existsSync(imagePath)) {
+            doc.image(imagePath, 250, 30, { width: 100 }); // Posición (x, y) y tamaño
+        } else {
+            console.log(`No existe ${imagePath}`);
+        }
+
+        // Título
+        doc.moveDown(10);
 
         // **Encabezado**
         doc.fontSize(20).text(`Reporte de Notas`, { align: 'center' }).moveDown();
